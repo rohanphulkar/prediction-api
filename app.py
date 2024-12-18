@@ -7,9 +7,23 @@ from functools import lru_cache
 import asyncio
 from concurrent.futures import ThreadPoolExecutor
 from fastapi.responses import JSONResponse
+from starlette.middleware import Middleware
+from starlette.middleware.cors import CORSMiddleware
+
+middleware = [
+    Middleware(
+        CORSMiddleware,
+        allow_origins=['*'],
+        allow_credentials=True,
+        allow_methods=['*'],
+        allow_headers=['*']
+    )
+]
+
 
 app = FastAPI(
-    title="Backupdoc ML Service", 
+    title="Backupdoc ML Service",
+    middleware=middleware,
     description="API for classifying dental x-ray images as OPG or regular x-ray",
     version="1.0.0",
     docs_url="/docs",
